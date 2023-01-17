@@ -38,6 +38,41 @@ class ProductController extends Controller
         }
     }
 
+    public function show($index) {
+        $product = [];
+        if (Storage::disk('local')->exists($this->datafile)) {
+            $products = json_decode(Storage::disk('local')->get($this->datafile));
+            if ($products && ($index - 1) >= 0 && isset($products[$index-1])) {
+                $product = $products[$index-1];
+                return Response::json($product, 200);
+            } else {
+                return Response::json('Product not found', 404);
+            }
+        } else {
+            return Response::json('Something went wrong', 422);
+        }
+    }
+
+    public function update(Request $request, $index) {
+        if (Storage::disk('local')->exists($this->datafile)) {
+            $products = json_decode(Storage::disk('local')->get($this->datafile));
+            if ($products && ($index - 1) >= 0 && isset($products[$index-1])) {
+                $products[$index-1]->name = $request->name;
+                $products[$index-1]->quantity = $request->quantity;
+                $products[$index-1]->price = $request->price;
+
+                Storage::disk('local')->put($this->datafile, json_encode($products));
+
+                $productsList = $this->prepareList();
+                return Response::json($productsList, 200);
+            } else {
+                return Response::json('Product not found', 404);
+            }
+        } else {
+            return Response::json('Something went wrong', 422);
+        }
+    }
+
     public function prepareList() {
         $productsList = '';
         $products = [];
@@ -58,7 +93,7 @@ class ProductController extends Controller
                         <td scope="col">' . $product->date_created . '</td>
                         <td scope="col">' . $total . '</td>
                         <td scope="col">
-                            <button type="button" class="btn btn-outline-dark btn-sm">Edit</button>
+                            <button type="button" class="btn btn-outline-dark btn-sm editproduct" productindex="'. $key + 1 .'">Edit</button>
                         </td>
                     </tr>
                     ';

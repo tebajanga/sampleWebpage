@@ -22,6 +22,10 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-10 mx-auto">
+                <div class="alert alert-success alert-dismissible fade show mb-4 d-none" role="alert" id="product-success">
+                    New product added successfully.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 <h2>New Product</h2>
                 <hr />
                 <div class="row mt-2">
@@ -29,15 +33,15 @@
                         <form action="">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Product Name">
+                                <input type="text" class="form-control" id="name" placeholder="Product Name" required>
                             </div>  
                             <div class="mb-3">
                                 <label for="quantity" class="form-label">Quantity in Stock</label>
-                                <input type="number" class="form-control" id="quantity" placeholder="Quantity in Stock" min="1">
+                                <input type="number" class="form-control" id="quantity" placeholder="Quantity in Stock" min="1" required>
                             </div>  
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price per Item</label>
-                                <input type="text" class="form-control" id="price" placeholder="Price per Item">
+                                <input type="text" class="form-control" id="price" placeholder="Price per Item" min="0" required>
                             </div>
                             <button type="submit" id="addproduct" class="btn btn-primary">Add Product</button>
                         </form>
@@ -46,6 +50,10 @@
             </div>
 
             <div class="col-md-10 mx-auto mt-5">
+                <div class="alert alert-success alert-dismissible fade show mb-4 d-none" role="alert" id="product-update-success">
+                    Product updated successfully.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 <h2>Products</h2>
                 <div class="row mt-2">
                     @if(isset($products_data) && $products_data !== '')
@@ -72,6 +80,10 @@
             </div>
         </div>
     </div>
+
+
+    @include('modals.edit_product')
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <input type="hidden" id="products_url" url="{{ url('products') }}" />
   </body>

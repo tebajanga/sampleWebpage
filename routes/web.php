@@ -15,4 +15,4 @@ use App\Http\Controllers\ProductController;
 */
 
 Route::get('/', [ProductController::class, 'index']);
-Route::post('/products', [ProductController::class, 'store']);
+Route::resource('/products', ProductController::class);
