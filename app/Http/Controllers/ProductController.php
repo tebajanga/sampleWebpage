@@ -11,11 +11,24 @@ class ProductController extends Controller
     public $datafile = 'products.json';
 
     public function index() {
-        return view('product');
+        // Getting products
+        $products = [];
+        if (Storage::disk('local')->exists($this->datafile)) {
+            $products = json_decode(Storage::disk('local')->get($this->datafile));
+            if ($products && count($products) > 0) {
+                for ($x = 0; $x < count($products); $x++) {
+                    $products[$x]->index = $x + 1;
+                    $products[$x]->total = $products[$x]->quantity * $products[$x]->price;
+                }
+            }
+        }
+        $data = array(
+            'products' => $products
+        );
+        return view('product', $data);
     }
 
     public function store(Request $request) {
-        \Log::info($request);
         try {
             // Saving in products.json
             $products = [];

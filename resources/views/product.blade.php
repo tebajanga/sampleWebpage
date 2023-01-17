@@ -19,25 +19,66 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
   </head>
   <body>
-    <div class="container">
-        <h1>New Product</h1>
+    <div class="container mt-5">
         <div class="row">
-            <div class="col">
-                <form action="">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Product Name">
-                    </div>  
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label">Quantity in Stock</label>
-                        <input type="number" class="form-control" id="quantity" placeholder="Quantity in Stock" min="1">
-                    </div>  
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price per Item</label>
-                        <input type="text" class="form-control" id="price" placeholder="Price per Item">
+            <div class="col-md-10 mx-auto">
+                <h2>New Product</h2>
+                <hr />
+                <div class="row mt-2">
+                    <div class="col">
+                        <form action="">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Product Name">
+                            </div>  
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity in Stock</label>
+                                <input type="number" class="form-control" id="quantity" placeholder="Quantity in Stock" min="1">
+                            </div>  
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Price per Item</label>
+                                <input type="text" class="form-control" id="price" placeholder="Price per Item">
+                            </div>
+                            <button type="submit" id="addproduct" class="btn btn-primary">Add Product</button>
+                        </form>
                     </div>
-                    <button type="submit" id="addproduct" class="btn btn-primary">Add Product</button>
-                </form>
+                </div>
+            </div>
+
+            <div class="col-md-10 mx-auto mt-5">
+                <h2>Products</h2>
+                <div class="row mt-2">
+                    @if($products && count($products) > 0)
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Quantity in Stock</th>
+                                <th scope="col">Price per Item</th>
+                                <th scope="col">Date Submitted</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products_data">
+                            @foreach($products as $product)
+                                <tr>
+                                    <td scope="col">{{ $product->index }}</td>
+                                    <td scope="col">{{ $product->name }}</td>
+                                    <td scope="col">{{ $product->quantity }}</td>
+                                    <td scope="col">{{ $product->price }}</td>
+                                    <td scope="col">{{ $product->date_created }}</td>
+                                    <td scope="col">{{ $product->total }}</td>
+                                    <td scope="col">Actions</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        </table>
+                    @else
+                        No data
+                    @endif
+                </div>
             </div>
         </div>
     </div>

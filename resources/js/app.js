@@ -26,10 +26,17 @@ $(document).ready(function(){
           },
           success: function(result){
             console.log(result);
+            clearForm();
           },
           error: function (data) {
             alert('Something went wrong, please try again.');
           }
         });
     });
+
+    function clearForm() {
+        $('#name').val('');
+        $('#quantity').val('');
+        $('#price').val('');
+    }
 });
