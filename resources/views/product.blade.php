@@ -56,8 +56,13 @@
                 </div>
                 <h2>Products</h2>
                 <div class="row mt-2">
-                    @if(isset($products_data) && $products_data !== '')
-                        <table class="table table-striped">
+                    @php
+                        $d_none = 'd-none';
+                        if (isset($products_data) && $products_data !== '') {
+                            $d_none = '';
+                        }
+                    @endphp
+                    <table class="table table-striped {{ $d_none }}" id="products-table">
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>
@@ -72,9 +77,11 @@
                         <tbody id="products_data">
                             {!! $products_data !!}
                         </tbody>
-                        </table>
-                    @else
-                        No data
+                    </table>
+                    @if(!isset($products_data) || $products_data == '')
+                        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" id="product-danger">
+                            There is no product to display, please add a product first.
+                        </div>
                     @endif
                 </div>
             </div>
