@@ -16,7 +16,7 @@
         crossorigin="anonymous">
     </script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
   </head>
   <body>
     <div class="container mt-5">
