@@ -25,7 +25,7 @@ $(document).ready(function(){
             price: price
           },
           success: function(result){
-            console.log(result);
+            $('#products_data').html(result);
             clearForm();
           },
           error: function (data) {

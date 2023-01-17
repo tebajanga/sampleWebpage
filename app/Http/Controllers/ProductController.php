@@ -11,19 +11,8 @@ class ProductController extends Controller
     public $datafile = 'products.json';
 
     public function index() {
-        // Getting products
-        $products = [];
-        if (Storage::disk('local')->exists($this->datafile)) {
-            $products = json_decode(Storage::disk('local')->get($this->datafile));
-            if ($products && count($products) > 0) {
-                for ($x = 0; $x < count($products); $x++) {
-                    $products[$x]->index = $x + 1;
-                    $products[$x]->total = $products[$x]->quantity * $products[$x]->price;
-                }
-            }
-        }
         $data = array(
-            'products' => $products
+            'products_data' => $this->prepareList()
         );
         return view('product', $data);
     }
@@ -41,9 +30,39 @@ class ProductController extends Controller
 
             Storage::disk('local')->put($this->datafile, json_encode($products));
 
-            return Response::json('Product saved.', 200);
+            $productsList = $this->prepareList();
+
+            return Response::json($productsList, 200);
         } catch(Exception $e){
             return Response::json('Something went wrong', 422);
         }
+    }
+
+    public function prepareList() {
+        $productsList = '';
+        $products = [];
+        if (Storage::disk('local')->exists($this->datafile)) {
+            $products = json_decode(Storage::disk('local')->get($this->datafile));
+            if ($products && count($products) > 0) {
+                foreach($products as $key => $product) {
+                    $total = $product->quantity * $product->price;
+
+                    $productsList .= '
+                    <tr>
+                        <td scope="col">' . $key + 1 . '</td>
+                        <td scope="col">' . $product->name . '</td>
+                        <td scope="col">' . $product->quantity . '</td>
+                        <td scope="col">' . $product->price . '</td>
+                        <td scope="col">' . $product->date_created . '</td>
+                        <td scope="col">' . $total . '</td>
+                        <td scope="col">
+                            <button type="button" class="btn btn-outline-dark btn-sm">Edit</button>
+                        </td>
+                    </tr>
+                    ';
+                }
+            }
+        }
+        return $productsList;
     }
 }

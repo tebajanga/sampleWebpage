@@ -48,7 +48,7 @@
             <div class="col-md-10 mx-auto mt-5">
                 <h2>Products</h2>
                 <div class="row mt-2">
-                    @if($products && count($products) > 0)
+                    @if(isset($products_data) && $products_data !== '')
                         <table class="table table-striped">
                         <thead>
                             <tr>
@@ -62,17 +62,7 @@
                             </tr>
                         </thead>
                         <tbody id="products_data">
-                            @foreach($products as $product)
-                                <tr>
-                                    <td scope="col">{{ $product->index }}</td>
-                                    <td scope="col">{{ $product->name }}</td>
-                                    <td scope="col">{{ $product->quantity }}</td>
-                                    <td scope="col">{{ $product->price }}</td>
-                                    <td scope="col">{{ $product->date_created }}</td>
-                                    <td scope="col">{{ $product->total }}</td>
-                                    <td scope="col">Actions</td>
-                                </tr>
-                            @endforeach
+                            {!! $products_data !!}
                         </tbody>
                         </table>
                     @else
