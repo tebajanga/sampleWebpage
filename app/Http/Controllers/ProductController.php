@@ -43,9 +43,11 @@ class ProductController extends Controller
         $products = [];
         if (Storage::disk('local')->exists($this->datafile)) {
             $products = json_decode(Storage::disk('local')->get($this->datafile));
+            $totalSum = 0;
             if ($products && count($products) > 0) {
                 foreach($products as $key => $product) {
                     $total = $product->quantity * $product->price;
+                    $totalSum += $total;
 
                     $productsList .= '
                     <tr>
@@ -61,6 +63,13 @@ class ProductController extends Controller
                     </tr>
                     ';
                 }
+
+                $productsList .= '
+                <tr>
+                    <td scope="col" colspan="5"><strong>Sum of all Total</strong></td>
+                    <td scope="col" colspan="2"><strong><u>' . $totalSum . '</u></strong></td>
+                </tr>
+                ';
             }
         }
         return $productsList;
